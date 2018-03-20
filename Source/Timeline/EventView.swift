@@ -89,6 +89,6 @@ open class EventView: UIView {
 
   override open func layoutSubviews() {
     super.layoutSubviews()
-    textView.fillSuperview(left: 0, right: 0, top: -8.0, bottom: -8.0)
+    textView.fillSuperview(left: 0, right: 0, top: -7.0, bottom: -7.0)
   }
 }
