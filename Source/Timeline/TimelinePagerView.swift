@@ -103,7 +103,7 @@ public class TimelinePagerView: UIView {
     let size = CGSize(width: contentWidth, height: 50)
     timelinePager.contentSize = size
     timelinePager.contentOffset = CGPoint(x: bounds.width, y: 0)
-    timelinePager.fillSuperview()
+    timelinePager.fillSuperview(left: 0, right: 0, top: 2.0, bottom: 2.0)
   }
 
   func updateTimeline(_ timeline: TimelineView) {
