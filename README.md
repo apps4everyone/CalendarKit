@@ -30,11 +30,6 @@ pod try CalendarKit
 ```ruby
 pod 'CalendarKit'
 ```
-To install **Swift 3** version, add a version requirement to the Podfile:
-
-```ruby
-pod 'CalendarKit', '0.1.22'
-```
 
 ## Usage
 Subclass DayViewController and implement `DayViewDataSource` protocol to show events.
@@ -103,7 +98,7 @@ dayView.updateStyle(style)
 ## Requirements
 
 - iOS 9.0+
-- Swift 4.0+
+- Swift 4.1+
 
 ## Dependencies
 - **[Neon](https://github.com/mamaral/Neon)** is used for declarative layout
