@@ -4,11 +4,11 @@ protocol PagingScrollViewDelegate: class {
   func scrollviewDidScrollToViewAtIndex(_ index: Int)
 }
 
-protocol ReusableView: class {
+public protocol ReusableView: class {
   func prepareForReuse()
 }
 
-class PagingScrollView<T: UIView>: UIScrollView, UIScrollViewDelegate where T: ReusableView {
+open class PagingScrollView<T: UIView>: UIScrollView, UIScrollViewDelegate where T: ReusableView {
 
   var reusableViews = [T]()
   weak var viewDelegate: PagingScrollViewDelegate?
@@ -35,7 +35,7 @@ class PagingScrollView<T: UIView>: UIScrollView, UIScrollViewDelegate where T: R
     configure()
   }
 
-  required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
     configure()
   }
@@ -48,7 +48,7 @@ class PagingScrollView<T: UIView>: UIScrollView, UIScrollViewDelegate where T: R
     delegate = self
   }
 
-  override func layoutSubviews() {
+    override open func layoutSubviews() {
     super.layoutSubviews()
     realignViews()
   }
@@ -105,16 +105,16 @@ class PagingScrollView<T: UIView>: UIScrollView, UIScrollViewDelegate where T: R
     }
   }
 
-  func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
     if decelerate {return}
     checkForPageChange()
   }
 
-  func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
     checkForPageChange()
   }
 
-  func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+    public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
     checkForPageChange()
   }
 }

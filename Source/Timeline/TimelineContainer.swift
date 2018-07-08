@@ -1,8 +1,8 @@
 import UIKit
 
-public class TimelineContainer: UIScrollView, ReusableView {
+open class TimelineContainer: UIScrollView, ReusableView {
   
-  public let timeline: TimelineView
+  open let timeline: TimelineView
   
   public init(_ timeline: TimelineView) {
     self.timeline = timeline
@@ -13,7 +13,7 @@ public class TimelineContainer: UIScrollView, ReusableView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override public func layoutSubviews() {
+  override open func layoutSubviews() {
     timeline.frame = CGRect(x: 0, y: 0, width: width, height: timeline.fullHeight)
     timeline.offsetAllDayView(by: contentOffset.y)
     

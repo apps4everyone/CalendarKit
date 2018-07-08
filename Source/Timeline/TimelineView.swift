@@ -6,7 +6,7 @@ public protocol TimelineViewDelegate: class {
   func timelineView(_ timelineView: TimelineView, didLongPressAt hour: Int)
 }
 
-public class TimelineView: UIView, ReusableView {
+open class TimelineView: UIView, ReusableView {
 
   public weak var delegate: TimelineViewDelegate?
 
@@ -94,14 +94,15 @@ public class TimelineView: UIView, ReusableView {
 
   var horizontalEventInset: CGFloat = 3
 
-  var timeLineHourSplitFactor : Int = 4 {
+  open var hourSplitFactor : Int = 1 {
+    
         didSet {
             setNeedsDisplay()
         }
   }
     
   public var fullHeight: CGFloat {
-    return verticalInset * 2 + verticalDiff * 24 * CGFloat(timeLineHourSplitFactor)
+    return verticalInset * 2 + verticalDiff * 24 * CGFloat(hourSplitFactor)
   }
 
   var calendarWidth: CGFloat {
@@ -124,15 +125,15 @@ public class TimelineView: UIView, ReusableView {
     
     var times : [String]!
     
-    if timeLineHourSplitFactor == 1
+    if hourSplitFactor == 1
     {
         times = _24hTimes60min
     }
-    else if timeLineHourSplitFactor == 2
+    else if hourSplitFactor == 2
     {
         times = _24hTimes30min
     }
-    else if timeLineHourSplitFactor == 4
+    else if hourSplitFactor == 4
     {
         times = _24hTimes15min
     }
@@ -202,7 +203,7 @@ public class TimelineView: UIView, ReusableView {
     setNeedsDisplay()
   }
 
-  override public func draw(_ rect: CGRect) {
+  override open func draw(_ rect: CGRect) {
     super.draw(rect)
 
     var hourToRemoveIndex = -1
@@ -254,7 +255,7 @@ public class TimelineView: UIView, ReusableView {
     }
   }
 
-  override public func layoutSubviews() {
+  override open func layoutSubviews() {
     super.layoutSubviews()
     recalculateEventLayout()
     layoutEvents()
@@ -372,7 +373,7 @@ public class TimelineView: UIView, ReusableView {
     }
   }
 
-  func prepareForReuse() {
+    public func prepareForReuse() {
     pool.enqueue(views: eventViews)
     eventViews.removeAll()
     setNeedsDisplay()

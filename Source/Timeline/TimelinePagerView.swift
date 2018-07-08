@@ -10,7 +10,7 @@ public protocol TimelinePagerViewDelegate: class {
   func timelinePager(timelinePager: TimelinePagerView, didMoveTo  date: Date)
 }
 
-public class TimelinePagerView: UIView {
+open class TimelinePagerView: UIView {
 
   public weak var dataSource: EventDataSource?
   public weak var delegate: TimelinePagerViewDelegate?
@@ -22,7 +22,7 @@ public class TimelinePagerView: UIView {
 
   open var autoScrollToFirstEvent = false
 
-  let timelinePager = PagingScrollView<TimelineContainer>()
+  open let timelinePager = PagingScrollView<TimelineContainer>()
   var timelineSynchronizer: ScrollSynchronizer?
 
   var style = TimelineStyle()
@@ -96,7 +96,7 @@ public class TimelinePagerView: UIView {
     timelinePager.reusableViews.forEach{self.updateTimeline($0.timeline)}
   }
 
-  override public func layoutSubviews() {
+    override open func layoutSubviews() {
     super.layoutSubviews()
 
     let contentWidth = CGFloat(timelinePager.reusableViews.count) * bounds.width
