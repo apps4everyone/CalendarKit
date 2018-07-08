@@ -94,8 +94,14 @@ public class TimelineView: UIView, ReusableView {
 
   var horizontalEventInset: CGFloat = 3
 
+  var timeLineHourSplitFactor : Int = 4 {
+        didSet {
+            setNeedsDisplay()
+        }
+  }
+    
   public var fullHeight: CGFloat {
-    return verticalInset * 2 + verticalDiff * 24
+    return verticalInset * 2 + verticalDiff * 24 * CGFloat(timeLineHourSplitFactor)
   }
 
   var calendarWidth: CGFloat {
@@ -115,12 +121,30 @@ public class TimelineView: UIView, ReusableView {
   }
 
   var times: [String] {
-    return is24hClock ? _24hTimes : _12hTimes
+    
+    var times : [String]!
+    
+    if timeLineHourSplitFactor == 1
+    {
+        times = _24hTimes60min
+    }
+    else if timeLineHourSplitFactor == 2
+    {
+        times = _24hTimes30min
+    }
+    else if timeLineHourSplitFactor == 4
+    {
+        times = _24hTimes15min
+    }
+    
+    return is24hClock ? times : _12hTimes
   }
 
   fileprivate lazy var _12hTimes: [String] = Generator.timeStrings12H()
-  fileprivate lazy var _24hTimes: [String] = Generator.timeStrings24H()
-  
+  fileprivate lazy var _24hTimes60min: [String] = Generator.timeStrings24H60Min()
+  fileprivate lazy var _24hTimes30min: [String] = Generator.timeStrings24H30Min()
+  fileprivate lazy var _24hTimes15min: [String] = Generator.timeStrings24H15Min()
+    
   fileprivate lazy var longPressGestureRecognizer: UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress(_:)))
 
   var isToday: Bool {
@@ -202,6 +226,7 @@ public class TimelineView: UIView, ReusableView {
                       NSAttributedStringKey.font: style.font] as [NSAttributedStringKey : Any]
 
     for (i, time) in times.enumerated() {
+        
       let iFloat = CGFloat(i)
       let context = UIGraphicsGetCurrentContext()
       context!.interpolationQuality = .none
