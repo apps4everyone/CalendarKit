@@ -49,7 +49,29 @@ open class TimelinePagerView: UIView {
   func configure() {
     configureTimelinePager()
   }
-
+    
+  open func getHourSplitFactor() -> Int
+  {
+    guard let timelineContainer = timelinePager.reusableViews.first else {
+        
+        return 1
+    }
+    
+    return timelineContainer.timeline.getHourSplitFactor()
+  }
+    
+  open func setHourSplitFactor(hourSplitFactor : Int)
+  {
+    self.timelinePager.reusableViews.forEach{ timelineContainer in
+        timelineContainer.timeline.setHourSplitFactor(hourSplitFactor: hourSplitFactor)
+        timelineContainer.layoutSubviews()
+    }
+    
+    self.timelinePager.resizeScrollViewContentSize()
+    self.timelinePager.layoutSubviews()
+    self.reloadData()
+  }
+    
   public func updateStyle(_ newStyle: TimelineStyle) {
     style = newStyle.copy() as! TimelineStyle
     timelinePager.reusableViews.forEach{ timelineContainer in

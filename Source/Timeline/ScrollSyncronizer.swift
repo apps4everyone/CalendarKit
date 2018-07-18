@@ -17,4 +17,5 @@ class ScrollSynchronizer: NSObject, UIScrollViewDelegate {
       view.contentOffset = contentOffset
     }
   }
+    
 }

@@ -50,10 +50,12 @@ open class PagingScrollView<T: UIView>: UIScrollView, UIScrollViewDelegate where
 
     override open func layoutSubviews() {
     super.layoutSubviews()
+        
+    
     realignViews()
   }
 
-  func recenterIfNecessary() {
+  open func recenterIfNecessary() {
     if reusableViews.isEmpty { return }
     let contentWidth = contentSize.width
     let centerOffsetX = (contentWidth - bounds.size.width) / 2
@@ -83,11 +85,28 @@ open class PagingScrollView<T: UIView>: UIScrollView, UIScrollViewDelegate where
   }
 
   func realignViews() {
+    
+    var contentRect = CGRect.zero
+    
     for (index, subview) in reusableViews.enumerated() {
       subview.frame.origin.x = bounds.width * CGFloat(index)
       subview.frame.size = bounds.size
     }
   }
+    
+  func resizeScrollViewContentSize() {
+    
+    for subview in reusableViews {
+        
+        guard let timelineContainer = subview as? TimelineContainer else
+        {
+            debugPrint(subview)
+            return
+        }
+        
+        timelineContainer.layoutSubviews()
+    }
+}
 
   func scrollForward() {
     setContentOffset(CGPoint(x: contentOffset.x + bounds.width, y: 0), animated: true)

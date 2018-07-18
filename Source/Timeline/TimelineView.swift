@@ -94,15 +94,21 @@ open class TimelineView: UIView, ReusableView {
 
   var horizontalEventInset: CGFloat = 3
 
-  open var hourSplitFactor : Int = 1 {
-    
-        didSet {
-            setNeedsDisplay()
-        }
+  open func getHourSplitFactor() -> Int
+  {
+      return self.hourSplitFactor
+  }
+ 
+  open func setHourSplitFactor(hourSplitFactor : Int)
+  {
+        self.hourSplitFactor = hourSplitFactor
   }
     
+  var hourSplitFactor : Int = 1
+    
   public var fullHeight: CGFloat {
-    return verticalInset * 2 + verticalDiff * 24 * CGFloat(hourSplitFactor)
+    let fullHeight = verticalInset * 2 / CGFloat(hourSplitFactor) + verticalDiff * 24 * CGFloat(hourSplitFactor)
+    return fullHeight
   }
 
   var calendarWidth: CGFloat {
@@ -393,8 +399,8 @@ open class TimelineView: UIView, ReusableView {
       // Event starting the previous day
       return verticalInset
     } else {
-      let hourY = CGFloat(date.hour) * verticalDiff + verticalInset
-      let minuteY = CGFloat(date.minute) * verticalDiff / 60
+      let hourY = CGFloat(date.hour * hourSplitFactor) * verticalDiff + verticalInset
+      let minuteY = CGFloat(date.minute * hourSplitFactor) * verticalDiff / 60
       return hourY + minuteY
     }
   }
