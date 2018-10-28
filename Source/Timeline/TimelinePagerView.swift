@@ -5,7 +5,7 @@ import DateToolsSwift
 public protocol TimelinePagerViewDelegate: class {
   func timelinePagerDidSelectEventView(_ eventView: EventView)
   func timelinePagerDidLongPressEventView(_ eventView: EventView)
-  func timelinePagerDidLongPressTimelineAtHour(_ hour: Int)
+  func timelinePagerDidLongPressTimelineAtHour(_ hour: Int, _ minutes: Int)
   func timelinePager(timelinePager: TimelinePagerView, willMoveTo date: Date)
   func timelinePager(timelinePager: TimelinePagerView, didMoveTo  date: Date)
 }
@@ -195,8 +195,8 @@ extension TimelinePagerView: PagingScrollViewDelegate {
 }
 
 extension TimelinePagerView: TimelineViewDelegate {
-  public func timelineView(_ timelineView: TimelineView, didLongPressAt hour: Int) {
-    delegate?.timelinePagerDidLongPressTimelineAtHour(hour)
+  public func timelineView(_ timelineView: TimelineView, didLongPressAt hour: Int, _ minutes: Int) {
+    delegate?.timelinePagerDidLongPressTimelineAtHour(hour, minutes)
   }
 }
 

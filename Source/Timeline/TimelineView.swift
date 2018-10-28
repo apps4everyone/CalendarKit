@@ -3,7 +3,7 @@ import Neon
 import DateToolsSwift
 
 public protocol TimelineViewDelegate: class {
-  func timelineView(_ timelineView: TimelineView, didLongPressAt hour: Int)
+  func timelineView(_ timelineView: TimelineView, didLongPressAt hour: Int, _ minutes: Int)
 }
 
 open class TimelineView: UIView, ReusableView {
@@ -181,11 +181,52 @@ open class TimelineView: UIView, ReusableView {
   
   @objc func longPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
     if (gestureRecognizer.state == .began) {
-      // Get timeslot of gesture location
-      let pressedLocation = gestureRecognizer.location(in: self)
-      let percentOfHeight = (pressedLocation.y - verticalInset) / (bounds.height - (verticalInset * 2))
-      let pressedAtHour: Int = Int(24 * percentOfHeight)
-      delegate?.timelineView(self, didLongPressAt: pressedAtHour)
+     
+        // Get timeslot of gesture location
+        let pressedLocation = gestureRecognizer.location(in: self)
+        let percentOfHeight = (pressedLocation.y - verticalInset) / (bounds.height - (verticalInset * 2))
+        let percentOfHeightRaw: CGFloat = 24 * percentOfHeight
+        let pressedAtHour: Int = Int(percentOfHeightRaw)
+        let percentOfHeightMinutes: Int = Int((percentOfHeightRaw - CGFloat(pressedAtHour)) * 100)
+        
+        var pressedAtMinutes: Int = 0
+        
+        if hourSplitFactor == 2 {
+            
+            if percentOfHeightMinutes < 50 {
+                
+                pressedAtMinutes = 0
+            }
+            else {
+                
+                pressedAtMinutes = 30
+            }
+        }
+        else if hourSplitFactor == 4 {
+            
+            if percentOfHeightMinutes < 25 {
+                
+                pressedAtMinutes = 0
+            }
+            else if percentOfHeightMinutes < 50 {
+                
+                pressedAtMinutes = 15
+            }
+            else if percentOfHeightMinutes < 75 {
+                
+                pressedAtMinutes = 30
+            }
+            else {
+                
+                pressedAtMinutes = 45
+            }
+        }
+        else {
+            
+            pressedAtMinutes = 0
+        }
+        
+        delegate?.timelineView(self, didLongPressAt: pressedAtHour, pressedAtMinutes)
     }
   }
 
